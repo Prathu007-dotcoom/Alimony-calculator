@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alimony Calculator - India</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a0a0a; /* Dark background */
+            color: #ffffff; /* White text for contrast */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #1a1a2e; /* Dark blue container */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #00d4ff; /* Light blue accent */
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #16213e; /* Darker blue */
+            color: #ffffff;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #00d4ff; /* Light blue button */
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0099cc;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #0f3460; /* Slightly lighter blue */
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .disclaimer {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Alimony Calculator - India</h1>
+        <p style="text-align: center; color: #00d4ff; font-style: italic;">Because splitting assets is funnier than splitting hairs! 😂</p>
+        <form id="alimonyForm">
+            <div class="form-group">
+                <label for="husbandIncome">Husband's Monthly Income (INR):</label>
+                <input type="number" id="husbandIncome" required min="0" placeholder="How much does he earn? Don't forget the side hustles!">
+            </div>
+            <div class="form-group">
+                <label for="wifeIncome">Wife's Monthly Income (INR):</label>
+                <input type="number" id="wifeIncome" required min="0" placeholder="Her earnings – because independence is sexy...but see mirror once!">
+            </div>
+            <div class="form-group">
+                <label for="children">Number of Children:</label>
+                <input type="number" id="children" required min="0" placeholder="Kids: The tiny humans who eat your wallet!">
+            </div>
+            <div class="form-group">
+                <label for="lifestyle">Lifestyle Class:</label>
+                <select id="lifestyle" required>
+                    <option value="low">Low Class - It means Gareebe On Top</option>
+                    <option value="medium">Medium Class - Comfortable, but no extra Cheese on pizza</option>
+                    <option value="high">High Class - Sydney Sweeney ki kacchi Sunghne wale</option>
+                </select>
+            </div>
+            <button type="button" onclick="calculateAlimony()">Calculate Alimony (Brace Yourself!)</button>
+        </form>
+        <div class="result" id="result" style="display: none;">
+            <p id="alimonyAmount"></p>
+            <p style="font-size: 14px; color: #00d4ff;">Pro Tip: Use this to negotiate, not to start a food fight! 🍕</p>
+        </div>
+        <div class="image-container">
+            <img src="https://via.placeholder.com/400x200/1a1a2e/00d4ff?text=Family+Support+Illustration" alt="Family Support Illustration">
+            <p>Illustration representing family and financial support. (Or is it a treasure map to the ex's wallet?)</p>
+        </div>
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This calculator provides an estimate based on general guidelines under Indian law (e.g., Section 125 of CrPC). Actual alimony amounts are determined by courts and may vary based on specific circumstances. Consult a legal professional for accurate advice. And remember, Be aware Of Blue Drum beacuse The more beautiful the wife, the more dangerous she is.– but don't tell the judge we said that! 😄
+        </div>
+    </div>
+
+    <script>
+        function calculateAlimony() {
+            const husbandIncome = parseFloat(document.getElementById('husbandIncome').value);
+            const wifeIncome = parseFloat(document.getElementById('wifeIncome').value);
+            const children = parseInt(document.getElementById('children').value);
+            const lifestyle = document.getElementById('lifestyle').value;
+
+            if (isNaN(husbandIncome) || isNaN(wifeIncome) || isNaN(children) || husbandIncome < 0 || wifeIncome < 0 || children < 0) {
+                alert('Please enter valid positive numbers. No negative vibes here!');
+                return;
+            }
+
+            // Basic formula (simplified estimate):
+            // Wife's alimony: 1/3 of husband's income, adjusted for wife's income and lifestyle
+            // Children's maintenance: 1/6 of husband's income per child, adjusted for lifestyle
+            // Lifestyle multipliers: Low (0.8), Medium (1.0), High (1.2)
+
+            let lifestyleMultiplier;
+            switch (lifestyle) {
+                case 'low':
+                    lifestyleMultiplier = 0.8;
+                    break;
+                case 'medium':
+                    lifestyleMultiplier = 1.0;
+                    break;
+                case 'high':
+                    lifestyleMultiplier = 1.2;
+                    break;
+            }
+
+            const baseWifeAlimony = (husbandIncome / 3) * lifestyleMultiplier;
+            const adjustedWifeAlimony = Math.max(0, baseWifeAlimony - (wifeIncome / 2)); // Reduce if wife has income
+
+            const childAlimonyPerChild = (husbandIncome / 6) * lifestyleMultiplier;
+            const totalChildAlimony = childAlimonyPerChild * children;
+
+            const totalAlimony = adjustedWifeAlimony + totalChildAlimony;
+
+            document.getElementById('alimonyAmount').innerText = `Estimated Monthly Alimony: ₹${totalAlimony.toFixed(2)} (Enough for a shopping spree or just survival? You decide!)`;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
